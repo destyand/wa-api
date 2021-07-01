@@ -74,10 +74,9 @@
 						</div>
 						<div class="col-md-4 qr-image">
 							<img src="/img/reloadqr.png" alt="QR Code" id="qrcode">
-							<div style="display: none;" class="row">
+							<div class="row">
 								<div class="col-md-12">
-									<small>Logs:</small>
-									<ul class="logs"></ul>
+									<a href="#" id="remove_session">Reload QR Code</a>
 								</div>
 							</div>
 						</div>
@@ -294,7 +293,7 @@
 			})
 		})
 		.catch(function (error) {
-			alert('oops');
+			// alert('oops');
 			console.log(error);
 		})
 	}
@@ -331,7 +330,7 @@
 				});
 			})
 			.catch(function (error) {
-				alert('oops');
+				// alert('oops');
 				console.log(error);
 			})
 			// get chats
@@ -362,19 +361,18 @@
 				});
 			})
 			.catch(function (error) {
-				alert('oops');
+				// alert('oops');
 				console.log(error);
 			})
 		}, 1000)
 	}
 	function handleLogout (){
-		axios.post('/auth/logout')
+		axios.post('/remove_session')
 			.then(function (response) {
-				// window.location.reload();
-				console.log(response);
+				window.location.reload();
+				// console.log(response);
 			})
 			.catch(function (error) {
-				alert('oops');
 				console.log(error);
 			})
 	}
@@ -439,6 +437,11 @@
 		})
 		
 		$(document).on('click','.log-out', function(){
+			handleLogout();
+		})
+
+		$(document).on('click','#remove_session', function(e){
+			e.preventDefault()
 			handleLogout();
 		})
 
