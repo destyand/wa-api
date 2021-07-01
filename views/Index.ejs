@@ -1,0 +1,474 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Whatsapp Template</title>
+  <meta charset="utf-8">
+	<link rel="icon" type="image/png" href="/img/logo192.png" sizes="32x32">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/css/app.css">
+  <!-- Font Awesome File -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/css/iziToast.min.css" integrity="sha512-O03ntXoVqaGUTAeAmvQ2YSzkCvclZEcPQu1eqloPaHfJ5RuNGiS4l+3duaidD801P50J28EHyonCV06CUlTSag==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/js/iziToast.min.js" integrity="sha512-Zq9o+E00xhhR/7vJ49mxFNJ0KQw1E1TMWkPTxrWcnpfEFDEXgUiwJHIKit93EW/XxE31HSI5GEOW06G6BF1AtA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js" integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</head>
+
+<body>
+
+  <div class="container app">
+		<div class="container-fluid" id="scan-qr">
+			<div class="row">
+				<div class="col-md-12">
+					<h3 class="text-center" style="margin-bottom: 36px;">
+						Selamat Datang Di WhatsApp Api
+					</h3>
+					<div class="row">
+						<div class="col-md-8 notif-left">
+							<dl>
+								<h2 style="margin-bottom: 36px;">
+									Untuk menggunakan WhatsApp di komputer Anda:
+								</h2>
+								<ol class="_2yDOs">
+									<li class="ZJ0wv">Buka WhatsApp di telepon Anda</li>
+									<li class="ZJ0wv">
+											<span dir="ltr" class="_3-8er">Ketuk
+													<strong>
+															<span dir="ltr" class="_3-8er">Menu
+																	<span class="_2zr6K">
+																			<svg height="24px" viewBox="0 0 24 24" width="24px">
+																					<rect fill="#f2f2f2" height="24" rx="3" width="24"></rect>
+																					<path
+																							d="m12 15.5c.825 0 1.5.675 1.5 1.5s-.675 1.5-1.5 1.5-1.5-.675-1.5-1.5.675-1.5 1.5-1.5zm0-2c-.825 0-1.5-.675-1.5-1.5s.675-1.5 1.5-1.5 1.5.675 1.5 1.5-.675 1.5-1.5 1.5zm0-5c-.825 0-1.5-.675-1.5-1.5s.675-1.5 1.5-1.5 1.5.675 1.5 1.5-.675 1.5-1.5 1.5z"
+																							fill="#818b90"></path>
+																			</svg>
+																	</span>
+															</span>
+													</strong>
+													atau
+													<strong>
+															<span dir="ltr" class="_3-8er">Setelan
+																	<span class="_2zr6K">
+																			<svg width="24" height="24" viewBox="0 0 24 24">
+																					<rect fill="#F2F2F2" width="24" height="24" rx="3"></rect>
+																					<path
+																							d="M12 18.69c-1.08 0-2.1-.25-2.99-.71L11.43 14c.24.06.4.08.56.08.92 0 1.67-.59 1.99-1.59h4.62c-.26 3.49-3.05 6.2-6.6 6.2zm-1.04-6.67c0-.57.48-1.02 1.03-1.02.57 0 1.05.45 1.05 1.02 0 .57-.47 1.03-1.05 1.03-.54.01-1.03-.46-1.03-1.03zM5.4 12c0-2.29 1.08-4.28 2.78-5.49l2.39 4.08c-.42.42-.64.91-.64 1.44 0 .52.21 1 .65 1.44l-2.44 4C6.47 16.26 5.4 14.27 5.4 12zm8.57-.49c-.33-.97-1.08-1.54-1.99-1.54-.16 0-.32.02-.57.08L9.04 5.99c.89-.44 1.89-.69 2.96-.69 3.56 0 6.36 2.72 6.59 6.21h-4.62zM12 19.8c.22 0 .42-.02.65-.04l.44.84c.08.18.25.27.47.24.21-.03.33-.17.36-.38l.14-.93c.41-.11.82-.27 1.21-.44l.69.61c.15.15.33.17.54.07.17-.1.24-.27.2-.48l-.2-.92c.35-.24.69-.52.99-.82l.86.36c.2.08.37.05.53-.14.14-.15.15-.34.03-.52l-.5-.8c.25-.35.45-.73.63-1.12l.95.05c.21.01.37-.09.44-.29.07-.2.01-.38-.16-.51l-.73-.58c.1-.4.19-.83.22-1.27l.89-.28c.2-.07.31-.22.31-.43s-.11-.35-.31-.42l-.89-.28c-.03-.44-.12-.86-.22-1.27l.73-.59c.16-.12.22-.29.16-.5-.07-.2-.23-.31-.44-.29l-.95.04c-.18-.4-.39-.77-.63-1.12l.5-.8c.12-.17.1-.36-.03-.51-.16-.18-.33-.22-.53-.14l-.86.35c-.31-.3-.65-.58-.99-.82l.2-.91c.03-.22-.03-.4-.2-.49-.18-.1-.34-.09-.48.01l-.74.66c-.39-.18-.8-.32-1.21-.43l-.14-.93a.426.426 0 00-.36-.39c-.22-.03-.39.05-.47.22l-.44.84-.43-.02h-.22c-.22 0-.42.01-.65.03l-.44-.84c-.08-.17-.25-.25-.48-.22-.2.03-.33.17-.36.39l-.13.88c-.42.12-.83.26-1.22.44l-.69-.61c-.15-.15-.33-.17-.53-.06-.18.09-.24.26-.2.49l.2.91c-.36.24-.7.52-1 .82l-.86-.35c-.19-.09-.37-.05-.52.13-.14.15-.16.34-.04.51l.5.8c-.25.35-.45.72-.64 1.12l-.94-.04c-.21-.01-.37.1-.44.3-.07.2-.02.38.16.5l.73.59c-.1.41-.19.83-.22 1.27l-.89.29c-.21.07-.31.21-.31.42 0 .22.1.36.31.43l.89.28c.03.44.1.87.22 1.27l-.73.58c-.17.12-.22.31-.16.51.07.2.23.31.44.29l.94-.05c.18.39.39.77.63 1.12l-.5.8c-.12.18-.1.37.04.52.16.18.33.22.52.14l.86-.36c.3.31.64.58.99.82l-.2.92c-.04.22.03.39.2.49.2.1.38.08.54-.07l.69-.61c.39.17.8.33 1.21.44l.13.93c.03.21.16.35.37.39.22.03.39-.06.47-.24l.44-.84c.23.02.44.04.66.04z"
+																							fill="#818b90"></path>
+																			</svg>
+																	</span>
+															</span>
+													</strong>
+													dan pilih
+													<strong>WhatsApp Web</strong>
+											</span>
+									</li>
+									<li class="ZJ0wv">Arahkan telepon Anda ke layar ini untuk memindai kode tersebut</li>
+							</ol>
+							</dl>
+						</div>
+						<div class="col-md-4 qr-image">
+							<img src="/img/reloadqr.png" alt="QR Code" id="qrcode">
+							<div style="display: none;" class="row">
+								<div class="col-md-12">
+									<small>Logs:</small>
+									<ul class="logs"></ul>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+    <div class="row app-one" id="chats">
+
+      <div class="col-sm-4 side">
+        <div class="side-one">
+          <!-- Heading -->
+          <div class="row heading">
+            <div class="col-sm-3 col-xs-3 heading-avatar">
+              <div class="heading-avatar-icon">
+                <img src="/img/logo192.png">
+              </div>
+            </div>
+            <div class="col-sm-1 col-xs-1  heading-dot  pull-right">
+              <i class="fa fa-ellipsis-v fa-2x  pull-right" aria-hidden="true"></i>
+            </div>
+            <div class="col-sm-2 col-xs-2 heading-compose  pull-right">
+              <i class="fa fa-comments fa-2x  pull-right" aria-hidden="true"></i>
+            </div>
+          </div>
+          <!-- Heading End -->
+
+          <!-- SearchBox -->
+          <div class="row searchBox">
+            <div class="col-sm-12 searchBox-inner">
+              <div class="form-group has-feedback">
+                <input id="searchText" type="text" class="form-control" name="searchText" placeholder="Search">
+                <span class="glyphicon glyphicon-search form-control-feedback"></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Search Box End -->
+          <!-- sideBar -->
+          <div class="row sideBar" id="get-chats">
+
+          </div>
+          <!-- Sidebar End -->
+        </div>
+        <div class="side-two">
+
+          <!-- Heading -->
+          <div class="row newMessage-heading">
+            <div class="row newMessage-main">
+              <div class="col-sm-2 col-xs-2 newMessage-back">
+                <i class="fa fa-arrow-left" aria-hidden="true"></i>
+              </div>
+              <div class="col-sm-10 col-xs-10 newMessage-title">
+                New Chat
+              </div>
+            </div>
+          </div>
+          <!-- Heading End -->
+
+          <!-- ComposeBox -->
+          <div class="row composeBox">
+            <div class="col-sm-12 composeBox-inner">
+              <div class="form-group has-feedback">
+                <input id="composeText" type="text" class="form-control" name="searchText" placeholder="Search People">
+                <span class="glyphicon glyphicon-search form-control-feedback"></span>
+              </div>
+            </div>
+          </div>
+          <!-- ComposeBox End -->
+
+          <!-- sideBar -->
+          <div class="row compose-sideBar" id="get-contact">
+						
+          </div>
+        </div>
+        <!-- Sidebar End -->
+      </div>
+
+
+      <!-- New Message Sidebar End -->
+
+      <!-- Conversation Start -->
+      <div class="col-sm-8 conversation">
+        <!-- Heading -->
+        <div class="row heading">
+          <div class="col-sm-2 col-md-1 col-xs-3 heading-avatar">
+            <div class="heading-avatar-icon">
+              <img src="/img/logo192.png">
+            </div>
+          </div>
+          <div class="col-sm-8 col-xs-7 heading-name">
+            <a class="heading-name-meta" id="who-are-you">
+							<b id="who-are-you-name"></b>
+							<input id="who-are-you-number" type="hidden" value="" />
+							<input id="who-are-you-nameVal" type="hidden" value="" />
+            </a>
+            <span class="heading-online">Online</span>
+          </div>
+          <div class="col-sm-1 col-xs-1  heading-dot pull-right">
+            <!-- <i class="fa fa-ellipsis-v fa-2x  pull-right" aria-hidden="true"></i> -->
+						<i class="fa fa-sign-out fa-2x log-out pull-right" style="font-size:24px" aria-hidden="true"></i>
+          </div>
+        </div>
+        <!-- Heading End -->
+
+        <!-- Message Box -->
+        <div class="row message" id="conversation-msg">
+					
+          <div class="row message-previous">
+            <div class="col-sm-12 previous">
+              <a onclick="previous(this)" id="ankitjain28" name="20">
+              <!-- Show Previous Message! -->
+              </a>
+            </div>
+          </div>
+					
+        <!-- Message Box End -->
+
+        <!-- Reply Box -->
+        <div class="row reply">
+          <div class="col-sm-1 col-xs-1 reply-emojis">
+            <i class="fa fa-smile-o fa-2x"></i>
+          </div>
+          <div class="col-sm-9 col-xs-9 reply-main">
+            <textarea class="form-control" rows="1" id="comment"></textarea>
+          </div>
+          <div class="col-sm-1 col-xs-1 reply-recording">
+            <i class="fa fa-microphone fa-2x" aria-hidden="true"></i>
+          </div>
+          <div class="col-sm-1 col-xs-1 reply-send" id="reply-send">
+            <i class="fa fa-send fa-2x" aria-hidden="true"></i>
+          </div>
+        </div>
+        <!-- Reply Box End -->
+      </div>
+      <!-- Conversation End -->
+    </div>
+    <!-- App One End -->
+  </div>
+
+  <!-- App End -->
+</body>
+
+</html>
+<script type="text/javascript">
+	function formatDate(date) {
+			var dn = new Date();
+			var n = dn.getDay();
+			var d = new Date(date * 1000),
+					month = '' + (d.getMonth() + 1),
+					day = '' + d.getDate(),
+					year = d.getFullYear();
+
+			if (month.length < 2) 
+					month = '0' + month;
+			if (day.length < 2) 
+					day = '0' + day;
+
+			var getDate = `${d.getHours()}:${d.getMinutes()}`;
+			if(day == n){
+				return getDate;
+			} else {
+				return [day, month, year].join('/');
+			}
+	}
+	function phoneNumberFormatter (number) {
+		let formatted = number.replace(/\D/g, '');
+		if (!formatted.endsWith('@c.us')) {
+			formatted += '@c.us';
+		}
+
+		return formatted;
+	}
+	function fetchMessages (id, name) {
+		$("#who-are-you-name").remove();
+		$("#who-are-you-number").val("");
+		$("#who-are-you-nameVal").val("");
+		axios.get(`/chat/fetchMessages/${id}`)
+		.then(function (response) {
+			var whoAreYou = `<b id="who-are-you-name">${name}</b>`;
+			$("#who-are-you").append(whoAreYou);
+			$("#who-are-you-number").val(id);
+			$("#who-are-you-nameVal").val(name);
+			var datas = response.data.message;
+			$(".conversation-body").remove()
+			datas.forEach(el => { 
+				var fromYou = `<div class="row message-body conversation-body">
+						<div class="col-sm-12 message-main-receiver">
+							<div class="receiver">
+								<div class="message-text">
+									${el.body}
+								</div>
+								<span class="message-time pull-right">
+									${formatDate(el.timestamp)}
+								</span>
+							</div>
+						</div>
+					</div>`;
+				var fromMe = `<div class="row message-body conversation-body">
+						<div class="col-sm-12 message-main-sender">
+							<div class="sender">
+								<div class="message-text">
+									${el.body}
+								</div>
+								<span class="message-time pull-right">
+									${formatDate(el.timestamp)}
+								</span>
+							</div>
+						</div>
+					</div>
+				</div>`;
+				var chats = (el.fromMe) ? fromMe : fromYou;
+				$('#conversation-msg').append(chats);
+			})
+		})
+		.catch(function (error) {
+			alert('oops');
+			console.log(error);
+		})
+	}
+	function fetchData (){
+		$('#qrcode').hide();
+		$('#scan-qr').hide();
+		$('#chats').show();
+		setTimeout(() => {
+			// get contact
+			axios.get('/contact/getcontacts')
+			.then(function (response) {
+				const datas = response.data;
+				datas.forEach(el => {
+					if((el.number && el.name) && (el.number !== null || el.number !== "" || el.number !== "0")){
+						var contact = `<div class="row sideBar-body">
+							<div class="col-sm-3 col-xs-3 sideBar-avatar">
+								<div class="avatar-icon">
+									<img src="/img/logo192.png">
+								</div>
+							</div>
+							<div class="col-sm-9 col-xs-9 sideBar-main">
+								<div class="row">
+									<div class="col-sm-8 col-xs-8 sideBar-name">
+										<span class="name-meta">${el.name}
+									</span>
+									</div>
+									<div class="col-sm-4 col-xs-4 pull-right sideBar-time">
+									</div>
+								</div>
+							</div>
+						</div>`;
+						$('#get-contact').append(contact);
+					}
+				});
+			})
+			.catch(function (error) {
+				alert('oops');
+				console.log(error);
+			})
+			// get chats
+			axios.get('/chat/getchats')
+			.then(function (response) {
+				const datas = response.data.message;
+				datas.forEach(el => {
+					var unreadCount = (el.unreadCount > 0) ? `<span class="badge badge-success">${el.unreadCount}</span>` : '';
+					var chats = `<div class="row sideBar-body" id="get-chat-msg" data-id="${el.id.user}" data-name="${el.name}">
+						<div class="col-sm-3 col-xs-3 sideBar-avatar">
+							<div class="avatar-icon">
+								<img src="/img/logo192.png">
+							</div>
+						</div>
+						<div class="col-sm-9 col-xs-9 sideBar-main">
+							<div class="row">
+								<div class="col-sm-8 col-xs-8 sideBar-name">
+									<span class="name-meta">${el.name}
+								</span>
+								</div>
+								<div class="col-sm-4 col-xs-4 pull-right sideBar-time">
+									<span class="time-meta pull-right">${formatDate(el.timestamp)}</span>
+								</div>
+							</div>
+						</div>
+					</div>`;
+					$('#get-chats').append(chats);
+				});
+			})
+			.catch(function (error) {
+				alert('oops');
+				console.log(error);
+			})
+		}, 1000)
+	}
+	function handleLogout (){
+		axios.post('/auth/logout')
+			.then(function (response) {
+				// window.location.reload();
+				console.log(response);
+			})
+			.catch(function (error) {
+				alert('oops');
+				console.log(error);
+			})
+	}
+</script>
+<script type="text/javascript">
+	$(document).ready(function() {
+
+			var socket = io();
+			$('#chats').hide();
+			$('#scan-qr').show();
+			socket.on('message', function(msg) {
+				// $('.logs').append($('<li>').text(msg));
+				iziToast.show({
+						title: 'Notification',
+						message: msg
+				});
+			});
+
+			socket.on('status', function(msg) {
+				// $('.logs').append($('<li>').text(msg));
+				if(msg === 200){
+					fetchData()
+				} else {
+					$('#chats').hide();
+					$('#scan-qr').show();
+				}
+			});
+
+			socket.on('new_message', function(msg) {
+				// $('.logs').append($('<li>').text(msg));
+				iziToast.show({
+						title: (msg) ? msg.from : 'New Message',
+						message: (msg) ? msg.body : 'You Have A Message'
+				});
+				var number = $("#who-are-you-number").val();
+				var name = $("#who-are-you-nameVal").val();
+				if(number !== "" && name !== ""){
+					fetchMessages(number, name);
+				}
+			});
+
+			socket.on('qr', function(src) {
+				$('#qrcode').attr('src', src);
+				$('#qrcode').show();
+			});
+
+			socket.on('ready', function(data) {
+				$('#qrcode').hide();
+				$('#scan-qr').hide();
+				$('#chats').show();
+			});
+
+			socket.on('authenticated', function(data) {
+				fetchData()
+			});
+	
+		});
+		$(document).on('click','#get-chat-msg', function(){
+			var id = $(this).data("id");
+			var name = $(this).data("name");
+			fetchMessages(id, name);
+		})
+		
+		$(document).on('click','.log-out', function(){
+			handleLogout();
+		})
+
+		$(document).on('click','#reply-send', function(){ 
+			var comment = $("#comment").val();
+			var number = $("#who-are-you-number").val();
+			var name = $("#who-are-you-nameVal").val();
+			axios.post(`/chat/send-message`, {
+				number: number,
+				message: comment
+			})
+			.then(function (response) {
+				fetchMessages(number, name);
+				var comment = $("#comment").val("");
+			})
+			.catch(function (error) {
+				console.log(error);
+			})
+		})
+</script>
+<script>
+	// $(".heading-compose").click(function() {
+	// 	$(".side-two").css({
+	// 		"left": "0"
+	// 	});
+	// });
+
+	// $(".newMessage-back").click(function() {
+	// 	$(".side-two").css({
+	// 		"left": "-100%"
+	// 	});
+	// });
+</script>
