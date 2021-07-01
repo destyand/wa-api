@@ -42,6 +42,7 @@ const db = require('./helpers/db');
 
 (async() => {
 const savedSession = await db.readSession();
+console.log(savedSession);
 global.client = new Client({
   restartOnAuthFail: true,
   puppeteer: {
@@ -60,7 +61,7 @@ global.client = new Client({
   session: savedSession
 });
 
-global.authed = false;
+global.authed = (savedSession !== '') ? true : false;
 
 client.initialize();
 
@@ -91,7 +92,7 @@ client.on('authenticated', (session) => {
 	console.log("AUTH!");
 	db.saveSession(session)
 	// sessionCfg = session;
-
+	authed = (savedSession !== '') ? true : false;
 	// fs.writeFile(SESSION_FILE_PATH, JSON.stringify(session), function (err) {
 	// 		if (err) {
 	// 				console.error(err);
