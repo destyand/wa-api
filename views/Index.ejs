@@ -256,7 +256,8 @@
 		$("#who-are-you-name").remove();
 		$("#who-are-you-number").val("");
 		$("#who-are-you-nameVal").val("");
-		const imgUrl = await fetchProfilePic(id);
+		const getPic = await fetchProfilePic(id);
+		const imgUrl = (getPic !== null) ? getPic.substring(1, getPic.length - 1) : "/img/logo192.png";
 		$("#img-profile").attr('src', imgUrl);
 		await axios.get(`/chat/fetchMessages/${id}`)
 		.then(function (response) {
@@ -310,12 +311,14 @@
 		await axios.get('/contact/getcontacts')
 		.then(function (response) {
 			const datas = response.data;
-			datas.forEach(el => {
+			datas.forEach(async el => {
 				if((el.number && el.name) && (el.number !== null || el.number !== "" || el.number !== "0")){
+					const getPic = await fetchProfilePic(id);
+					const imgUrl = (getPic !== null) ? getPic.substring(1, getPic.length - 1) : "/img/logo192.png";
 					var contact = `<div class="row sideBar-body">
 						<div class="col-sm-3 col-xs-3 sideBar-avatar">
 							<div class="avatar-icon">
-								<img src="/img/logo192.png">
+								<img src="${imgUrl}">
 							</div>
 						</div>
 						<div class="col-sm-9 col-xs-9 sideBar-main">
@@ -342,7 +345,8 @@
 		.then(function (response) {
 			const datas = response.data.message;
 			datas.forEach(async el => {
-				const imgUrl = await fetchProfilePic(el.id.user);
+				const getPic = await fetchProfilePic(el.id.user);
+				const imgUrl = (getPic !== null) ? getPic.substring(1, getPic.length - 1) : "/img/logo192.png";
 				var unreadCount = (el.unreadCount > 0) ? `<span class="badge badge-success">${el.unreadCount}</span>` : '';
 				var chats = `<div class="row sideBar-body" id="get-chat-msg" data-id="${el.id.user}" data-name="${el.name}">
 					<div class="col-sm-3 col-xs-3 sideBar-avatar">
@@ -384,20 +388,6 @@
     const response = await axios.get(`/contact/getprofilepic/${params}`)
     return response.data.message
 	}
-	// async function fetchProfilePic(params){
-	// 	const request = axios.get(`/contact/getprofilepic/${params}`)
-
-	// 	await request
-	// 	.then(function (response) {
-	// 		const imgUrl = response.data.message;
-	// 		console.log(`iki : ${imgUrl}`);
-	// 		return imgUrl;
-	// 	})
-	// 	.catch(function (error) {
-	// 		return '/img/logo192.png';
-	// 	})
-	// 	return request;
-	// }
 </script>
 <script type="text/javascript">
 	$(document).ready(function() {
