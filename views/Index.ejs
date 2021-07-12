@@ -383,13 +383,14 @@
 	}
 	function handleLogout (){
 		axios.post('/remove_session')
-			.then(function (response) {
-				window.location.reload();
-				// console.log(response);
-			})
-			.catch(function (error) {
-				console.log(error);
-			})
+		.then(function (response) {
+			// window.location.reload();
+			// console.log(response);
+			axios.get('/auth/restart').then((resp) => { return resp }).catch((err) => { throw err })
+		})
+		.catch(function (error) {
+			console.log(error);
+		})
 	}
 	async function fetchProfilePic(params) {
     const response = await axios.get(`/contact/getprofilepic/${params}`)
