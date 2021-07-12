@@ -26,7 +26,7 @@
     "install": "^0.13.0",
     "localStorage": "^1.0.4",
     "node-localstorage": "^2.2.1",
-    "npm": "^7.19.0",
+    "npm": "^7.19.1",
     "pg": "^8.6.0",
     "qrcode": "^1.4.4",
     "request": "^2.88.2",
@@ -35,6 +35,6 @@
     "store2": "^2.12.0",
     "valid-url": "^1.0.9",
     "websocket": "^1.0.34",
-    "whatsapp-web.js": "^1.12.6"
+    "whatsapp-web.js": "^1.13.2"
   }
 }

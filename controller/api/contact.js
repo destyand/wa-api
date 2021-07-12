@@ -22,14 +22,24 @@ router.get('/getprofilepic/:phone', async (req, res) => {
     let phone = req.params.phone;
 
     if (phone != undefined) {
-        client.getProfilePicUrl(`${phone}@c.us`).then((imgurl) => {
+        await client.getProfilePicUrl(`${phone}@c.us`).then((imgurl) => {
             if (imgurl) {
-                res.send({ status: 'success', message: imgurl });
+                res.send({ status: 'success', message: JSON.stringify(imgurl) });
             } else {
                 res.send({ status: 'error', message: 'Not Found' });
             }
         })
     }
+});
+
+router.get('/fetchprofilepic', async (req, res) => {
+		client.getProfilePicUrl().then((imgurl) => {
+				if (imgurl) {
+						res.send({ status: 'success', message: imgurl });
+				} else {
+						res.send({ status: 'error', message: 'Not Found' });
+				}
+		})
 });
 
 router.get('/isregistereduser/:phone', async (req, res) => {

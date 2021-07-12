@@ -335,6 +335,21 @@ body:after {
   height: calc(100% - 120px);
 }
 
+.connected {
+  padding: 0 !important;
+  margin: 0 !important;
+  background: #f7f9fa no-repeat fixed center;
+  background-size: cover;
+  overflow-y: auto;
+  border: 1px solid #f7f7f7;
+  height: calc(100% - 120px);
+}
+
+.img-199 {
+	margin-top: 80px;
+	width: -webkit-fill-available;
+}
+
 .message-previous {
   margin : 0 !important;
   padding: 0 !important;

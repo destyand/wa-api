@@ -92,7 +92,7 @@
           <div class="row heading">
             <div class="col-sm-3 col-xs-3 heading-avatar">
               <div class="heading-avatar-icon">
-                <img src="/img/logo192.png">
+                <img id="avatar-profile" src="/img/logo192.png">
               </div>
             </div>
             <div class="col-sm-1 col-xs-1  heading-dot  pull-right">
@@ -164,7 +164,7 @@
         <div class="row heading">
           <div class="col-sm-2 col-md-1 col-xs-3 heading-avatar">
             <div class="heading-avatar-icon">
-              <img src="/img/logo192.png">
+              <img id="img-profile" src="/img/logo192.png">
             </div>
           </div>
           <div class="col-sm-8 col-xs-7 heading-name">
@@ -183,8 +183,8 @@
         <!-- Heading End -->
 
         <!-- Message Box -->
-        <div class="row message" id="conversation-msg">
-					
+        <div class="row connected" id="conversation-msg">
+					<img id="img-connected" src="/img/logo199.png" class="img-199" />
           <div class="row message-previous">
             <div class="col-sm-12 previous">
               <a onclick="previous(this)" id="ankitjain28" name="20">
@@ -194,7 +194,6 @@
           </div>
 					
         <!-- Message Box End -->
-
         <!-- Reply Box -->
         <div class="row reply">
           <div class="col-sm-1 col-xs-1 reply-emojis">
@@ -250,11 +249,16 @@
 
 		return formatted;
 	}
-	function fetchMessages (id, name) {
+	async function fetchMessages (id, name) {
+		$('.reply').show();
+		$("#conversation-msg").attr('class', 'message');
+		$("#img-connected").remove();
 		$("#who-are-you-name").remove();
 		$("#who-are-you-number").val("");
 		$("#who-are-you-nameVal").val("");
-		axios.get(`/chat/fetchMessages/${id}`)
+		const imgUrl = await fetchProfilePic(id);
+		$("#img-profile").attr('src', imgUrl);
+		await axios.get(`/chat/fetchMessages/${id}`)
 		.then(function (response) {
 			var whoAreYou = `<b id="who-are-you-name">${name}</b>`;
 			$("#who-are-you").append(whoAreYou);
@@ -297,49 +301,18 @@
 			console.log(error);
 		})
 	}
-	function fetchData (){
+	async function fetchData (){
 		$('#qrcode').hide();
 		$('#scan-qr').hide();
+		$('.reply').hide();
 		$('#chats').show();
-		setTimeout(() => {
-			// get contact
-			axios.get('/contact/getcontacts')
-			.then(function (response) {
-				const datas = response.data;
-				datas.forEach(el => {
-					if((el.number && el.name) && (el.number !== null || el.number !== "" || el.number !== "0")){
-						var contact = `<div class="row sideBar-body">
-							<div class="col-sm-3 col-xs-3 sideBar-avatar">
-								<div class="avatar-icon">
-									<img src="/img/logo192.png">
-								</div>
-							</div>
-							<div class="col-sm-9 col-xs-9 sideBar-main">
-								<div class="row">
-									<div class="col-sm-8 col-xs-8 sideBar-name">
-										<span class="name-meta">${el.name}
-									</span>
-									</div>
-									<div class="col-sm-4 col-xs-4 pull-right sideBar-time">
-									</div>
-								</div>
-							</div>
-						</div>`;
-						$('#get-contact').append(contact);
-					}
-				});
-			})
-			.catch(function (error) {
-				// alert('oops');
-				console.log(error);
-			})
-			// get chats
-			axios.get('/chat/getchats')
-			.then(function (response) {
-				const datas = response.data.message;
-				datas.forEach(el => {
-					var unreadCount = (el.unreadCount > 0) ? `<span class="badge badge-success">${el.unreadCount}</span>` : '';
-					var chats = `<div class="row sideBar-body" id="get-chat-msg" data-id="${el.id.user}" data-name="${el.name}">
+		// setTimeout(() => {
+		await axios.get('/contact/getcontacts')
+		.then(function (response) {
+			const datas = response.data;
+			datas.forEach(el => {
+				if((el.number && el.name) && (el.number !== null || el.number !== "" || el.number !== "0")){
+					var contact = `<div class="row sideBar-body">
 						<div class="col-sm-3 col-xs-3 sideBar-avatar">
 							<div class="avatar-icon">
 								<img src="/img/logo192.png">
@@ -352,19 +325,50 @@
 								</span>
 								</div>
 								<div class="col-sm-4 col-xs-4 pull-right sideBar-time">
-									<span class="time-meta pull-right">${formatDate(el.timestamp)}</span>
 								</div>
 							</div>
 						</div>
 					</div>`;
-					$('#get-chats').append(chats);
-				});
-			})
-			.catch(function (error) {
-				// alert('oops');
-				console.log(error);
-			})
-		}, 1000)
+					$('#get-contact').append(contact);
+				}
+			});
+		})
+		.catch(function (error) {
+			// alert('oops');
+			console.log(error);
+		})
+		// get chats
+		await axios.get('/chat/getchats')
+		.then(function (response) {
+			const datas = response.data.message;
+			datas.forEach(async el => {
+				const imgUrl = await fetchProfilePic(el.id.user);
+				var unreadCount = (el.unreadCount > 0) ? `<span class="badge badge-success">${el.unreadCount}</span>` : '';
+				var chats = `<div class="row sideBar-body" id="get-chat-msg" data-id="${el.id.user}" data-name="${el.name}">
+					<div class="col-sm-3 col-xs-3 sideBar-avatar">
+						<div class="avatar-icon">
+							<img src="${imgUrl}">
+						</div>
+					</div>
+					<div class="col-sm-9 col-xs-9 sideBar-main">
+						<div class="row">
+							<div class="col-sm-8 col-xs-8 sideBar-name">
+								<span class="name-meta">${el.name}
+							</span>
+							</div>
+							<div class="col-sm-4 col-xs-4 pull-right sideBar-time">
+								<span class="time-meta pull-right">${formatDate(el.timestamp)}</span>
+							</div>
+						</div>
+					</div>
+				</div>`;
+				$('#get-chats').append(chats);
+			});
+		})
+		.catch(function (error) {
+			// alert('oops');
+			console.log(error);
+		})
 	}
 	function handleLogout (){
 		axios.post('/remove_session')
@@ -376,6 +380,24 @@
 				console.log(error);
 			})
 	}
+	async function fetchProfilePic(params) {
+    const response = await axios.get(`/contact/getprofilepic/${params}`)
+    return response.data.message
+	}
+	// async function fetchProfilePic(params){
+	// 	const request = axios.get(`/contact/getprofilepic/${params}`)
+
+	// 	await request
+	// 	.then(function (response) {
+	// 		const imgUrl = response.data.message;
+	// 		console.log(`iki : ${imgUrl}`);
+	// 		return imgUrl;
+	// 	})
+	// 	.catch(function (error) {
+	// 		return '/img/logo192.png';
+	// 	})
+	// 	return request;
+	// }
 </script>
 <script type="text/javascript">
 	$(document).ready(function() {
