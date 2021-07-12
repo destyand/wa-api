@@ -260,16 +260,19 @@
 			fetchContact();
 		}, 1000)
 	}
-	async function fetchMessages (id, name) {
+	async function fetchMessages (id, name, type) {
 		$('.reply').show();
 		$("#conversation-msg").attr('class', 'message');
 		$("#img-connected").remove();
 		$("#who-are-you-name").remove();
 		$("#who-are-you-number").val("");
 		$("#who-are-you-nameVal").val("");
-		const getPic = await fetchProfilePic(id);
-		const imgUrl = (getPic !== null) ? getPic.substring(1, getPic.length - 1) : "/img/logo192.png";
-		$("#img-profile").attr('src', imgUrl);
+		$(".conversation-body").remove()
+		if(type !== "get-reply"){
+			const getPic = await fetchProfilePic(id);
+			const imgUrl = (getPic !== null) ? getPic.substring(1, getPic.length - 1) : "/img/logo192.png";
+			$("#img-profile").attr('src', imgUrl);
+		}
 		await axios.get(`/chat/fetchMessages/${id}`)
 		.then(function (response) {
 			var whoAreYou = `<b id="who-are-you-name">${name}</b>`;
@@ -277,7 +280,6 @@
 			$("#who-are-you-number").val(id);
 			$("#who-are-you-nameVal").val(name);
 			var datas = response.data.message;
-			$(".conversation-body").remove()
 			datas.forEach(el => { 
 				var fromYou = `<div class="row message-body conversation-body">
 						<div class="col-sm-12 message-main-receiver">
@@ -321,7 +323,7 @@
 				if((el.number && el.name) && (el.number !== null || el.number !== "" || el.number !== "0")){
 					const getPic = await fetchProfilePic(el.id.user);
 					const imgUrl = (getPic !== null) ? getPic.substring(1, getPic.length - 1) : "/img/logo192.png";
-					var contact = `<div class="row sideBar-body">
+					var contact = `<div class="row sideBar-body contact-body">
 						<div class="col-sm-3 col-xs-3 sideBar-avatar">
 							<div class="avatar-icon">
 								<img src="${imgUrl}">
@@ -355,7 +357,7 @@
 				const getPic = await fetchProfilePic(el.id.user);
 				const imgUrl = (getPic !== null) ? getPic.substring(1, getPic.length - 1) : "/img/logo192.png";
 				var unreadCount = (el.unreadCount > 0) ? `<span class="badge badge-success">${el.unreadCount}</span>` : '';
-				var chats = `<div class="row sideBar-body" id="get-chat-msg" data-id="${el.id.user}" data-name="${el.name}">
+				var chats = `<div class="row sideBar-body chat-body" id="get-chat-msg" data-id="${el.id.user}" data-name="${el.name}">
 					<div class="col-sm-3 col-xs-3 sideBar-avatar">
 						<div class="avatar-icon">
 							<img src="${imgUrl}">
@@ -382,6 +384,9 @@
 		})
 	}
 	function handleLogout (){
+		$(".conversation-body").remove()
+		$(".contact-body").remove()
+		$(".chat-body").remove()
 		axios.post('/remove_session')
 		.then(function (response) {
 			// window.location.reload();
@@ -430,7 +435,7 @@
 				var number = $("#who-are-you-number").val();
 				var name = $("#who-are-you-nameVal").val();
 				if(number !== "" && name !== ""){
-					fetchMessages(number, name);
+					fetchMessages(number, name, "get-reply");
 				}
 			});
 
@@ -446,6 +451,7 @@
 			});
 
 			socket.on('authenticated', function(data) {
+				$(".log-out").show();
 				fetchData()
 			});
 	
@@ -457,11 +463,20 @@
 		})
 		
 		$(document).on('click','.log-out', function(){
+			$(".log-out").hide();
+			iziToast.show({
+					title: 'Please Wait',
+					message: "Logging Out"
+			});
 			handleLogout();
 		})
 
 		$(document).on('click','#remove_session', function(e){
 			e.preventDefault()
+			iziToast.show({
+					title: 'Please Wait',
+					message: "Loading QR Code"
+			});
 			handleLogout();
 		})
 
@@ -469,12 +484,13 @@
 			var comment = $("#comment").val();
 			var number = $("#who-are-you-number").val();
 			var name = $("#who-are-you-nameVal").val();
+			var type = "get-reply";
 			axios.post(`/chat/send-message`, {
 				number: number,
 				message: comment
 			})
 			.then(function (response) {
-				fetchMessages(number, name);
+				fetchMessages(number, name, type);
 				var comment = $("#comment").val("");
 			})
 			.catch(function (error) {
