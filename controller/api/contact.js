@@ -26,7 +26,7 @@ router.get('/getprofilepic/:phone', async (req, res) => {
             if (imgurl) {
                 res.send({ status: 'success', message: JSON.stringify(imgurl) });
             } else {
-                res.send({ status: 'error', message: 'Not Found' });
+                res.send({ status: 'error', message: null });
             }
         })
     }

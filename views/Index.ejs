@@ -130,7 +130,7 @@
                 <i class="fa fa-arrow-left" aria-hidden="true"></i>
               </div>
               <div class="col-sm-10 col-xs-10 newMessage-title">
-                New Chat
+                Kontak
               </div>
             </div>
           </div>
@@ -249,6 +249,17 @@
 
 		return formatted;
 	}
+	function fetchData (){
+		$('#qrcode').hide();
+		$('#scan-qr').hide();
+		$('.reply').hide();
+		$('#chats').show();
+		// get chats
+		setTimeout(() => {
+			fetchChat()
+			fetchContact();
+		}, 1000)
+	}
 	async function fetchMessages (id, name) {
 		$('.reply').show();
 		$("#conversation-msg").attr('class', 'message');
@@ -302,18 +313,13 @@
 			console.log(error);
 		})
 	}
-	async function fetchData (){
-		$('#qrcode').hide();
-		$('#scan-qr').hide();
-		$('.reply').hide();
-		$('#chats').show();
-		// setTimeout(() => {
-		await axios.get('/contact/getcontacts')
+	function fetchContact () {
+		axios.get('/contact/getcontacts')
 		.then(function (response) {
 			const datas = response.data;
 			datas.forEach(async el => {
 				if((el.number && el.name) && (el.number !== null || el.number !== "" || el.number !== "0")){
-					const getPic = await fetchProfilePic(id);
+					const getPic = await fetchProfilePic(el.id.user);
 					const imgUrl = (getPic !== null) ? getPic.substring(1, getPic.length - 1) : "/img/logo192.png";
 					var contact = `<div class="row sideBar-body">
 						<div class="col-sm-3 col-xs-3 sideBar-avatar">
@@ -340,8 +346,9 @@
 			// alert('oops');
 			console.log(error);
 		})
-		// get chats
-		await axios.get('/chat/getchats')
+	}
+	function fetchChat(){
+		axios.get('/chat/getchats')
 		.then(function (response) {
 			const datas = response.data.message;
 			datas.forEach(async el => {
@@ -475,15 +482,15 @@
 		})
 </script>
 <script>
-	// $(".heading-compose").click(function() {
-	// 	$(".side-two").css({
-	// 		"left": "0"
-	// 	});
-	// });
+	$(".heading-compose").click(function() {
+		$(".side-two").css({
+			"left": "0"
+		});
+	});
 
-	// $(".newMessage-back").click(function() {
-	// 	$(".side-two").css({
-	// 		"left": "-100%"
-	// 	});
-	// });
+	$(".newMessage-back").click(function() {
+		$(".side-two").css({
+			"left": "-100%"
+		});
+	});
 </script>

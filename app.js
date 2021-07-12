@@ -102,7 +102,7 @@ client.on('authenticated', (session) => {
 	// 		authed = true;
 	// });
 });
-
+console.log(store.get('session'));
 // Socket IO
 io.on('connection', function(socket) {
 	// console.log(store.get('session'));
