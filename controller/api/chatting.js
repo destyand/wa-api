@@ -186,8 +186,8 @@ router.get('/getchatbyid/:phone', async (req, res) => {
         client.getChatById(`${phone}@c.us`).then((chat) => {
             res.send({ status:"success", message: chat });
         }).catch(() => {
-            console.error("getchaterror")
-            res.send({ status: "error", message: "getchaterror" })
+            console.error("Phone Not Connected")
+            res.send({ status: "error", message: "Phone Not Connected" })
         })
     }
 });
@@ -207,8 +207,8 @@ router.get('/getchats', async (req, res) => {
 			})
 			res.send({ status:"success", message: chat, profilePic: foto });
 		}).catch(() => {
-				console.error("getchaterror")
-				res.send({ status: "error", message: "getchaterror" })
+				console.error("Phone Not Connected")
+				res.send({ status: "error", message: "Phone Not Connected" })
 		})
 });
 
@@ -225,7 +225,7 @@ router.get('/fetchMessages/:phone', async (req, res) => {
 			})
 			.catch((err) => {
 					console.error(err)
-					res.send({ status: "error", message: "getchaterror" })
+					res.send({ status: "error", message: "getmsgerror" })
 			})
 	}
 });

@@ -1,4 +1,4 @@
-const { Client, MessageMedia } = require('whatsapp-web.js');
+const { Client, MessageMedia, ClientInfo } = require('whatsapp-web.js');
 const express = require('express');
 const { body, validationResult } = require('express-validator');
 const socketIO = require('socket.io');
@@ -43,9 +43,10 @@ const db = require('./helpers/db');
 
 (async() => {
 const savedSession = await db.readSession();
-// console.log(savedSession);
+console.log("savedSession");
+console.log(savedSession);
 global.client = new Client({
-  restartOnAuthFail: true,
+  restartOnAuthFail: false,
   puppeteer: {
     headless: true,
     args: [
@@ -59,10 +60,12 @@ global.client = new Client({
       '--disable-gpu'
     ],
   },
-  session: store.get('session')
+  session: savedSession
 });
 
-global.authed = (store.get('session') !== null) ? true : false;
+global.client_info = new ClientInfo({})
+
+global.authed = (savedSession !== null) ? true : false;
 
 client.initialize();
 
@@ -89,12 +92,14 @@ client.initialize();
 //   }
 // });
 
-client.on('authenticated', (session) => {
+client.on('authenticated', async (session) => {
 	console.log("AUTH!");
-	db.saveSession(session)
+	// db.saveSession(session)
 	store.set('session', session);
 	// sessionCfg = session;
-	authed = (store.get('session') !== null) ? true : false;
+	authed = (savedSession !== null && savedSession !== "") ? true : false;
+	// authed = (store.get('session') !== null) ? true : false;
+	// const clientInfo = await client.ClientInfo()
 	// fs.writeFile(SESSION_FILE_PATH, JSON.stringify(session), function (err) {
 	// 		if (err) {
 	// 				console.error(err);
@@ -102,23 +107,27 @@ client.on('authenticated', (session) => {
 	// 		authed = true;
 	// });
 });
-console.log(store.get('session'));
+console.log(savedSession);
+
 // Socket IO
 io.on('connection', function(socket) {
-	// console.log(store.get('session'));
-	// console.log(authed);
+	// console.log(savedSession);
+	console.log(authed);
 	if(authed){
-		socket.emit('message', 'Connected...');
+		socket.emit('message', 'Please Wait...');
 		socket.emit('status', 200);
-		console.log("Connected...");
+		socket.emit('authed', authed);
+		console.log("Loading");
 	} else {
-		if(store.get('session') !== null){
+		if(savedSession !== null && savedSession !== ""){
 			socket.emit('message', 'Connected...');
 			socket.emit('status', 200);
-			console.log("Connected...");
+			socket.emit('authed', authed);
+			console.log("Connected With Session ");
 		} else {
 			socket.emit('message', 'Connecting...');
 			socket.emit('status', 400);
+			socket.emit('authed', authed);
 			console.log("Connecting...");
 			// client.getState().then((data) => {
       //   console.log(data)
@@ -131,12 +140,28 @@ io.on('connection', function(socket) {
 		}
 	}
 
-	client.on('message', msg => {
+	client.on('message', async (msg) => {
 		socket.emit('new_message', msg);
 		if (msg.body == '!ping') {
 			msg.reply('pong');
 		} else if (msg.body == 'good morning') {
 			msg.reply('selamat pagi');
+		} else if (msg.body.includes("-")) {
+			// msg.reply('selamat pagi');
+			const get_id = msg.body.split("-")[0];
+			const get_value = msg.body.split("-")[1];
+			const checkStr = new String(get_id).valueOf() == new String("!nisn").valueOf();
+			if(checkStr){
+				const resp = await db.readMasterData(get_value);
+				// console.log(resp);
+				if(resp !== ""){
+					const repplyMsg = `${resp.desc}, Data Anda (NISN: ${resp.name}, Nama: ${resp.title})`
+					msg.reply(repplyMsg);
+					return true;
+				} else {
+					msg.reply("Data Tidak Ditemukan");
+				}
+			}
 		} else if (msg.body == '!groups') {
 			client.getChats().then(chats => {
 				const groups = chats.filter(chat => chat.isGroup);
@@ -175,6 +200,8 @@ io.on('connection', function(socket) {
     console.log('AUTHENTICATED', session);
 		db.saveSession(session)
 		store.set('session', session);
+		authed = true;
+		console.log(client_info.me);
     // sessionCfg = session;
     // fs.writeFile(SESSION_FILE_PATH, JSON.stringify(session), function(err) {
     //   if (err) {
@@ -185,12 +212,14 @@ io.on('connection', function(socket) {
 
   client.on('auth_failure', function(session) {
     socket.emit('message', 'Auth failure, restarting...');
+		authed = false;
   });
 
   client.on('disconnected', (reason) => {
     socket.emit('message', 'Whatsapp is disconnected!');
     db.removeSession();
 		store.remove('session', null); 
+		authed = false;
 		// fs.unlinkSync(SESSION_FILE_PATH, function(err) {
     //     if(err) return console.log(err);
     //     console.log('Session file deleted!');

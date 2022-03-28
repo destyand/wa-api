@@ -8,6 +8,14 @@ const client = new Client({
   }
 });
 
+// const client = new Client({
+//   user: 'postgres',
+//   host: 'localhost',
+//   database: 'wa_sess',
+//   password: '',
+//   port: 5435,
+// })
+
 client.connect();
 
 const readSession = async () => {
@@ -16,7 +24,7 @@ const readSession = async () => {
 		if(res.rows.length) {
 			return res.rows[0].session;
 		} else {
-			return '';
+			return null;
 		}
 	} catch {
 		throw err;
@@ -47,8 +55,22 @@ const removeSession = () => {
 	})
 }
 
+const readMasterData = async (id) => {
+	try {
+		const res = await client.query(`SELECT * FROM master_data WHERE name=${id}`);
+		if(res.rows.length) {
+			return res.rows[0];
+		} else {
+			return '';
+		}
+	} catch(err) {
+		throw err
+	}
+}
+
 module.exports = {
 	readSession,
 	saveSession,
 	removeSession,
+	readMasterData
 }

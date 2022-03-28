@@ -2,10 +2,14 @@
   "name": "wa-api",
   "version": "0.0.3",
   "description": "A NodeJS API wrapper for whatsapp-web.js",
-  "main": "app.js",
+  "main": "api.js",
   "scripts": {
     "start": "node app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/telbokbatok/wa-api.git"
   },
   "keywords": [
     "whatsapp-api",
@@ -15,26 +19,24 @@
   ],
   "author": "Pixo Destya Fandy",
   "dependencies": {
-    "axios": "^0.21.1",
-    "body-parser": "^1.19.0",
+    "axios": "^0.21.4",
+    "body-parser": "^1.19.2",
     "child_process": "^1.0.2",
     "ejs": "^3.1.6",
-    "express": "^4.17.1",
-    "express-fileupload": "^1.2.1",
-    "express-validator": "^6.12.0",
+    "express": "^4.17.3",
+    "express-fileupload": "^1.3.1",
+    "express-validator": "^6.14.0",
     "fs": "0.0.1-security",
     "install": "^0.13.0",
-    "localStorage": "^1.0.4",
-    "node-localstorage": "^2.2.1",
-    "npm": "^7.19.1",
-    "pg": "^8.6.0",
-    "qrcode": "^1.4.4",
+    "npm": "^7.24.2",
+    "pg": "^8.7.3",
+    "qrcode": "^1.5.0",
     "request": "^2.88.2",
-    "shelljs": "^0.8.4",
+    "shelljs": "^0.8.5",
     "socket.io": "2.3.0",
-    "store2": "^2.12.0",
     "valid-url": "^1.0.9",
     "websocket": "^1.0.34",
-    "whatsapp-web.js": "^1.13.2"
+    "store2": "^2.13.2",
+    "whatsapp-web.js": "^1.16.4"
   }
 }

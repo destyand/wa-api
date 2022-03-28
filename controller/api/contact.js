@@ -3,7 +3,9 @@ const router = require('express').Router();
 router.get('/getcontacts', (req, res) => {
     client.getContacts().then((contacts) => {
         res.send(JSON.stringify(contacts));
-    });
+    }).catch((err) => {
+				res.send({ status: "error", message: "getcontacterror" })
+		});
 });
 
 router.get('/getcontact/:phone', async (req, res) => {
